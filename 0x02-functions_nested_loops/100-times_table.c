@@ -1,47 +1,74 @@
 #include "main.h"
+#include <string.h>
 
 /**
- * print_times_table - prints the n times table, starting with 0
- * @n: number of the times table
+ * panctuate - format the output
+ * @n: number of spaces
+ */
+
+void panctuate(int n)
+{
+	int panct;
+
+	_putchar(',');
+	for (panct = 0; panct < n; panct++)
+	{
+		_putchar(' ');
+	}
+}
+
+/**
+ * print_numbers - print values using _putchar
+ * @k: integer k
+ * @mod: check wether to append control x-ters
+ */
+
+void print_numbers(int k, int mod)
+{
+	if (k < 10)
+	{
+		_putchar(k + '0');
+		if (mod > 0)
+			panctuate(mod);
+	}
+	else if (k < 100)
+	{
+		_putchar((k / 10) + '0');
+		_putchar((k % 10) + '0');
+		if (mod > 0)
+			panctuate(mod);
+	}
+	else
+	{
+		_putchar((k / 100) + '0');
+		_putchar(((k % 100) / 10) + '0');
+		_putchar((k % 10) + '0');
+		if (mod > 0)
+			panctuate(mod);
+	}
+}
+
+/**
+ * print_times_table - print the n x i table
+ * @n: integer n
  */
 void print_times_table(int n)
 {
-	int i, j, k;
+	int left, right, product, mod, postprod;
 
-	if (n >= 0 && n <= 15)
+	if (n > 15 || n < 0)
+		return;
+
+	for (left = 0; left <= n; left++)
 	{
-		for (i = 0; i <= n; i++)
+		for (right = 0; right <= n; right++)
 		{
-			for (j = 0; j <= n; j++)
-			{
-				k = j * i;
-				if (j == 0)
-				{
-					_putchar(k + '0');
-				} else if (k < 10 && j != 0)
-				{
-					_putchar(',');
-					_putchar(' ');
-					_putchar(' ');
-					_putchar(' ');
-					_putchar(k + '0');
-				} else if (k >= 10 && k < 100)
-				{
-					_putchar(',');
-					_putchar(' ');
-					_putchar(' ');
-					_putchar((k / 10) + '0');
-					_putchar((k % 10) + '0');
-				} else if (k >= 100)
-				{
-					_putchar(',');
-					_putchar(' ');
-					_putchar((k / 100) + '0');
-					_putchar(((k / 10) % 10) + '0');
-					_putchar((k % 10) + '0');
-				}
-			}
-			_putchar('\n');
+			product = left * right;
+			postprod = (left * (right + 1));
+
+			mod = right == n ? -1 : postprod >= 100 ? 1 : postprod >= 10 ? 2 : 3;
+			print_numbers(product, mod);
 		}
+		_putchar('\n');
 	}
 }
